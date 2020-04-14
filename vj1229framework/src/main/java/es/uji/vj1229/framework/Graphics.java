@@ -175,4 +175,11 @@ public class Graphics {
         drawable.setBounds((int)x, (int)y, (int)(x + width), (int)(y+height));
         drawable.draw(canvas);
     }
+
+    /**
+     * Recycle the frameBuffer. The object can not be used after this
+     */
+    public void recycle() {
+        frameBuffer.recycle();
+    }
 }
