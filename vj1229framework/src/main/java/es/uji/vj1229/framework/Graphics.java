@@ -177,7 +177,7 @@ public class Graphics {
     }
 
     /**
-     * Recycle the frameBuffer. The object can not be used after this
+     * Recycle the frameBuffer. The object can not be used after this.
      */
     public void recycle() {
         frameBuffer.recycle();

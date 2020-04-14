@@ -62,7 +62,7 @@ public class GameView extends SurfaceView implements Runnable {
             try {
                 renderThread.join();
                 return;
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException ignored) {}
         }
     }
 
@@ -70,6 +70,9 @@ public class GameView extends SurfaceView implements Runnable {
      * Implementation of the {@link Runnable#run} method. The run process keeps
      * refreshing the view as fast as possible by calling the {@link IGameController} to process
      * the events and to get the bitmap to draw.
+     *
+     * If the bitmap returned by {@link IGameController#onDrawingRequested()} is null,
+     * there is no redraw of the screen. This can reduce battery consumption.
      */
     @Override
     public void run() {
@@ -86,11 +89,16 @@ public class GameView extends SurfaceView implements Runnable {
 
             gameController.onUpdate(deltaTime, touchHandler.getTouchEvents());
             Bitmap frameBuffer = gameController.onDrawingRequested();
-
-            Canvas canvas = holder.lockCanvas();
-            canvas.getClipBounds(dstRect);
-            canvas.drawBitmap(frameBuffer, null, dstRect, null);
-            holder.unlockCanvasAndPost(canvas);
+            if (frameBuffer == null) { // No need to update, sleep 10 milliseconds
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ignored) { }
+            } else {
+                Canvas canvas = holder.lockCanvas();
+                canvas.getClipBounds(dstRect);
+                canvas.drawBitmap(frameBuffer, null, dstRect, null);
+                holder.unlockCanvasAndPost(canvas);
+            }
         }
     }
 }
