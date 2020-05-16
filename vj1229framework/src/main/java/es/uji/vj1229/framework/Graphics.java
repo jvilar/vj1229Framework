@@ -27,6 +27,7 @@ public class Graphics {
     private Bitmap frameBuffer;
     private Canvas canvas;
     private Paint paint;
+    private int textColor;
 
     /**
      * The constructor.
@@ -38,9 +39,10 @@ public class Graphics {
         this.frameBuffer = Bitmap.createBitmap(width, height, ARGB_8888);
         canvas = new Canvas(frameBuffer);
         paint = new Paint();
-        paint.setTextAlign(Paint.Align.LEFT);
-        paint.setTextSize(20);
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        setTextAlign(Paint.Align.LEFT);
+        setTextSize(20);
+        setTypeface(Typeface.DEFAULT_BOLD);
+        setTextColor(0xffe0e0e0);
     }
 
     /**
@@ -146,9 +148,42 @@ public class Graphics {
      * @param s the text
      */
     public void drawText(float x, float y, String s) {
-        paint.setColor(0xffe0e0e0);
+        paint.setColor(textColor);
         canvas.drawText(s, x, y, paint);
     }
+
+    /**
+     * Sets the color used when drawing texts
+     * @param textColor the new color
+     */
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    /**
+     * Sets the alignment of the text
+     * @param align the new alignment
+     */
+    public void setTextAlign(Paint.Align align) {
+        paint.setTextAlign(align);
+    }
+
+    /**
+     * Sets the size of the text
+     * @param size the new size
+     */
+    public void setTextSize(int size) {
+        paint.setTextSize(size);
+    }
+
+    /**
+     * Sets the type face for the text
+     * @param typeface the new typeface
+     */
+    public void setTypeface(Typeface typeface) {
+        paint.setTypeface(typeface);
+    }
+
 
     /**
      * Draw a circle with the given center, radius, and color
