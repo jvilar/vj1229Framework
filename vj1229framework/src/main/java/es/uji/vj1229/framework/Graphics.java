@@ -122,7 +122,7 @@ public class Graphics {
 
     /**
      * Draw a {@link Bitmap} over the underlying {@link Bitmap} clipping in the
-     * horizontal axis
+     * horizontal axis.
      * @param bitmap the {@link Bitmap} to draw
      * @param x the x coordinate of the upper left corner to draw {@code bitmap}, unless it is
      *          smaller than {@code minX}
@@ -140,6 +140,30 @@ public class Graphics {
         dst.set(leftDst, (int)y, rightDst, (int)y + bitmap.getHeight());
         canvas.drawBitmap(bitmap, src, dst, null);
     }
+
+    /**
+     * Draw a rectangular portion of a {@link Bitmap} over the underlying {@link Bitmap}.
+     * @param bitmap the {@link Bitmap} containing the rectangle that will be drawn
+     * @param x the x coordinate of the position in which {@code bitmap} will be drawn
+     * @param y the x coordinate of the position in which {@code bitmap} will be drawn
+     * @param xb the x coordinate of the rectangle from {@code bitmap} which will be drawn
+     * @param yb the y coordinate of the rectangle from {@code bitmap} which will be drawn
+     * @param width the width of the rectangle from {@code bitmap} which will be drawn
+     * @param height the height of the rectangle from {@code bitmap} which will be drawn
+     */
+    public void drawBitmap(Bitmap bitmap, float x, float y, float xb, float yb, float width, float height) {
+        int xi = (int) x;
+        int yi = (int) y;
+        int xbi = (int) xb;
+        int ybi = (int) yb;
+
+        int w = Math.min(frameBuffer.getWidth() - xi, (int)width);
+        int h = Math.min(frameBuffer.getHeight() - yi, (int)height);
+        src.set(xbi, ybi, xbi + w, ybi + h);
+        dst.set(xi, yi, xi + w, yi + h);
+        canvas.drawBitmap(bitmap, src, dst, null);
+    }
+
 
     /**
      * Draw a {@link String} in the given coordinates
