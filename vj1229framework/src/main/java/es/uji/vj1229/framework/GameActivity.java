@@ -23,6 +23,25 @@ public abstract class GameActivity extends Activity {
     GameView gameView;
     IGameController gameController;
 
+    private final int orientation;
+
+    /**
+     *  Default constructor. Sets portrait orientation
+     */
+    public GameActivity() {
+        this(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /**
+     * Constructor to control the orientation.
+     *
+     * @param orientation The desired orientation, the possible values come from ActivityInfo
+     *
+     */
+    public GameActivity(int orientation) {
+        this.orientation = orientation;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +52,7 @@ public abstract class GameActivity extends Activity {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(orientation);
 
         gameController = buildGameController();
         gameView = new GameView(this, gameController);
