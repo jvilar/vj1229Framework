@@ -10,7 +10,7 @@ import android.view.WindowManager;
  * <p>The abstract base class for the activity that will control the game.
  * It holds a single {@link GameView} and creates it with the
  * {@link IGameController} returned by {@link GameActivity#buildGameController()},
- * that must be overriden by the class extending GameActivity.</p>
+ * that must be overridden by the class extending GameActivity.</p>
  *
  * <p>This file is part of the framework adapted for VJ1229, Mobile Device Applications in
  * <a href = "https://www.uji.es">Universitat Jaume I</a> from the one in the book

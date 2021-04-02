@@ -25,11 +25,11 @@ import android.view.SurfaceView;
  */
 
 public class GameView extends SurfaceView implements Runnable {
-    IGameController gameController;
-    SurfaceHolder holder;
+    final IGameController gameController;
+    final SurfaceHolder holder;
     volatile boolean running;
     Thread renderThread;
-    TouchHandler touchHandler;
+    final TouchHandler touchHandler;
 
     /**
      * Constructor

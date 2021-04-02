@@ -19,9 +19,11 @@ import android.graphics.Matrix;
  * @see <a href="https://www.apress.com/gp/book/9781430246770">Begining Android Games</a>
  */
 public class SpriteSheet {
-    private Bitmap sheet;
-    private int cellHeight, cellWidth;
-    private int rows, columns;
+    private final Bitmap sheet;
+    private final int cellHeight;
+    private final int cellWidth;
+    private final int rows;
+    private final int columns;
 
     /**
      * Constructor.

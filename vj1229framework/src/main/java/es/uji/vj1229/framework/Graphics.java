@@ -24,9 +24,9 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
  * @see <a href="https://www.apress.com/gp/book/9781430246770">Begining Android Games</a>
  */
 public class Graphics {
-    private Bitmap frameBuffer;
-    private Canvas canvas;
-    private Paint paint;
+    private final Bitmap frameBuffer;
+    private final Canvas canvas;
+    private final Paint paint;
     private int textColor;
 
     /**

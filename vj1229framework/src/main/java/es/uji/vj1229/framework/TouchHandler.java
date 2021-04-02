@@ -59,15 +59,15 @@ public class TouchHandler implements View.OnTouchListener {
     /**
      * Allow for a maximum of ten fingers.
      */
-    public static final int MAX_TOUCHPOINTS = 10;
+    public static final int MAX_TOUCH_POINTS = 10;
 
-    private boolean[] isTouched = new boolean[MAX_TOUCHPOINTS];
-    private int[] touchX = new int[MAX_TOUCHPOINTS];
-    private int[] touchY = new int[MAX_TOUCHPOINTS];
-    private int[] id = new int[MAX_TOUCHPOINTS];
-    private Pool<TouchEvent> touchEventPool;
-    private List<TouchEvent> touchEvents = new ArrayList<>();
-    private List<TouchEvent> touchEventsBuffer = new ArrayList<>();
+    private final boolean[] isTouched = new boolean[MAX_TOUCH_POINTS];
+    private final int[] touchX = new int[MAX_TOUCH_POINTS];
+    private final int[] touchY = new int[MAX_TOUCH_POINTS];
+    private final int[] id = new int[MAX_TOUCH_POINTS];
+    private final Pool<TouchEvent> touchEventPool;
+    private final List<TouchEvent> touchEvents = new ArrayList<>();
+    private final List<TouchEvent> touchEventsBuffer = new ArrayList<>();
 
     /**
      * Construct the handler and attach to the given {@link View}.
@@ -118,7 +118,7 @@ public class TouchHandler implements View.OnTouchListener {
                     break;
             }
 
-            for (int i = pointerCount ; i < MAX_TOUCHPOINTS ; i++ ) {
+            for (int i = pointerCount; i < MAX_TOUCH_POINTS; i++ ) {
                 isTouched[i] = false;
                 id[i] = -1;
             }
@@ -145,7 +145,7 @@ public class TouchHandler implements View.OnTouchListener {
     public boolean isTouchDown(int pointer) {
         synchronized (this) {
             int index = getIndex(pointer);
-            return index >= 0 && index < MAX_TOUCHPOINTS && isTouched[index];
+            return index >= 0 && index < MAX_TOUCH_POINTS && isTouched[index];
         }
     }
 
@@ -157,7 +157,7 @@ public class TouchHandler implements View.OnTouchListener {
     public int getTouchX(int pointer) {
         synchronized (this) {
             int index = getIndex(pointer);
-            if (index < 0 || index >= MAX_TOUCHPOINTS)
+            if (index < 0 || index >= MAX_TOUCH_POINTS)
                 return 0;
             else
                 return touchX[index];
@@ -172,7 +172,7 @@ public class TouchHandler implements View.OnTouchListener {
     public int getTouchY(int pointer) {
         synchronized (this) {
             int index = getIndex(pointer);
-            if (index < 0 || index >= MAX_TOUCHPOINTS)
+            if (index < 0 || index >= MAX_TOUCH_POINTS)
                 return 0;
             else
                 return touchY[index];
@@ -196,7 +196,7 @@ public class TouchHandler implements View.OnTouchListener {
     }
 
     private int getIndex(int pointerId) {
-        for (int i = 0; i < MAX_TOUCHPOINTS; i++) {
+        for (int i = 0; i < MAX_TOUCH_POINTS; i++) {
             if (id[i] == pointerId)
                 return i;
         }

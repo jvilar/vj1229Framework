@@ -15,12 +15,12 @@ import android.graphics.Bitmap;
  * @see <a href="https://www.apress.com/gp/book/9781430246770">Begining Android Games</a>
  */
 public class AnimatedBitmap {
-    private Bitmap[] frames;
-    private float frameDuration;
-    private float totalTime;
+    private final Bitmap[] frames;
+    private final float frameDuration;
+    private final float totalTime;
     private float currentTime;
     private int currentIndex;
-    private boolean looping;
+    private final boolean looping;
 
     /**
      * Constructor for the AnimatedBitmap in looping mode.
