@@ -76,6 +76,15 @@ public class AnimatedBitmap {
     }
 
     /**
+     *  Restart the animation
+     */
+
+    public void restart() {
+        currentTime = 0;
+        currentIndex = 0;
+    }
+
+    /**
      * Call {@link Bitmap#recycle()} on each of the frames.
      */
     public void recycle() {
