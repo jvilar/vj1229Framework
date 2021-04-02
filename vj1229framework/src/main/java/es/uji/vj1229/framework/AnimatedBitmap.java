@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 
 /**
  * This class stores the frames corresponding to an animated bitmap.
- * Each frame is a {@link Bitmap}. The animation keeps looping around
- * the frames with a period indicated in the constructor.
+ * Each frame is a {@link Bitmap}. The animation can be configured to
+ * keep looping around or to end in the a period indicated in the constructor.
  *
  * <p>This file is part of the framework adapted for VJ1229, Mobile Device Applications in
  * <a href = "https://www.uji.es">Universitat Jaume I</a> from the one in the book
@@ -17,16 +17,30 @@ import android.graphics.Bitmap;
 public class AnimatedBitmap {
     private Bitmap[] frames;
     private float frameDuration;
+    private float totalTime;
     private float currentTime;
     private int currentIndex;
+    private boolean looping;
 
     /**
-     * Constructor for the AnimatedBitmap
+     * Constructor for the AnimatedBitmap in looping mode.
      *
      * @param totalTime the total time (in seconds) needed for the whole animation.
      * @param frames the frames.
      */
     public AnimatedBitmap(float totalTime, Bitmap ... frames) {
+        this(totalTime, true, frames);
+    }
+
+    /**
+     *  General constructor for the AnimatedBitmap.
+     * @param totalTime the total time (in seconds) needed for the whole animation.
+     * @param looping if true, the animation will keep looping with a period equal to totalTime
+     * @param frames frames the frames.
+     */
+    public AnimatedBitmap(float totalTime, boolean looping, Bitmap ... frames) {
+        this.totalTime = totalTime;
+        this.looping = looping;
         this.frames = frames;
         frameDuration = totalTime / frames.length;
     }
@@ -39,9 +53,11 @@ public class AnimatedBitmap {
      */
     public void update(float deltaTime) {
         currentTime += deltaTime;
-        int n = (int)(currentTime / frameDuration);
-        currentTime -= n * frameDuration;
-        currentIndex = (currentIndex + n) % frames.length;
+        int nFrames = (int) (currentTime / frameDuration);
+        if (looping)
+            currentIndex = nFrames % frames.length;
+        else
+            currentIndex = Math.min(nFrames, frames.length - 1);
     }
 
     /**
@@ -49,6 +65,14 @@ public class AnimatedBitmap {
      */
     public Bitmap getCurrentFrame() {
         return frames[currentIndex];
+    }
+
+    /**
+     * @return True when the bitmap does not loop and the current time
+     * is larger than the total time
+     */
+    public boolean isEnded() {
+        return !looping && currentTime >= totalTime;
     }
 
     /**
