@@ -142,6 +142,18 @@ public class Graphics {
     }
 
     /**
+     * Draw a {@link Bitmap} or a portion of it over the underlying {@link Bitmap}
+     * @param bitmap the {@link Bitmap} to draw
+     * @param src the portion of {@code src} to draw. If {@code null}, the whole bitmap
+     *            is drawn
+     * @param dst the rectangle in which the {@code src} will be scaled/translated to
+     *            fit, it cannot be null
+     */
+    public void drawBitmap(Bitmap bitmap, Rect src, Rect dst) {
+        canvas.drawBitmap(bitmap, src, dst, null);
+    }
+
+    /**
      * Draw a rectangular portion of a {@link Bitmap} over the underlying {@link Bitmap}.
      * @param bitmap the {@link Bitmap} containing the rectangle that will be drawn
      * @param x the x coordinate of the position in which {@code bitmap} will be drawn
