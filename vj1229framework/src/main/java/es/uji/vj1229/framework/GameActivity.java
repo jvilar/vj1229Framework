@@ -66,6 +66,12 @@ public abstract class GameActivity extends Activity {
      */
     abstract protected IGameController buildGameController();
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gameController.onBitmapMeasuresAvailable(gameView.getWidth(), gameView.getHeight());
+    }
+
     /**
      * Transmit to the {@link GameView} the onResume event.
      */
