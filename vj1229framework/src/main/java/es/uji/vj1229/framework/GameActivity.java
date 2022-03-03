@@ -21,7 +21,6 @@ import android.view.WindowManager;
  */
 public abstract class GameActivity extends Activity {
     GameView gameView;
-    IGameController gameController;
 
     private final int orientation;
 
@@ -54,8 +53,9 @@ public abstract class GameActivity extends Activity {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(orientation);
 
-        gameController = buildGameController();
+        IGameController gameController = buildGameController();
         gameView = new GameView(this, gameController);
+        gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> gameController.onBitmapMeasuresAvailable(right - left, bottom - top));
 
         setContentView(gameView);
     }
@@ -65,12 +65,6 @@ public abstract class GameActivity extends Activity {
      * @return the {@link IGameController} that will be used in the {@link GameView}.
      */
     abstract protected IGameController buildGameController();
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        gameController.onBitmapMeasuresAvailable(gameView.getWidth(), gameView.getHeight());
-    }
 
     /**
      * Transmit to the {@link GameView} the onResume event.
