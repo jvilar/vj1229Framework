@@ -2,7 +2,6 @@ package es.uji.vj1229.framework;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -19,32 +18,18 @@ import android.view.WindowManager;
  * @author Juan Miguel Vilar Torres and Juan Carlos Amengual Argudo
  * @see <a href="https://www.apress.com/gp/book/9781430246770">Begining Android Games</a>
  */
-public abstract class GameActivity extends Activity {
-    GameView gameView;
+public abstract class GameActivity extends Activity implements GameView.IBitmapProvider {
+    private GameView gameView = null;
 
-    private final int orientation;
-
-    /**
-     *  Default constructor. Sets portrait orientation
-     */
-    public GameActivity() {
-        this(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    protected void portraitFullScreenOnCreate() {
+        fullScreenOnCreate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    /**
-     * Constructor to control the orientation.
-     *
-     * @param orientation The desired orientation, the possible values come from ActivityInfo
-     *
-     */
-    public GameActivity(int orientation) {
-        this.orientation = orientation;
+    protected void landscapeFullScreenOnCreate() {
+        fullScreenOnCreate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected void fullScreenOnCreate(int orientation) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = getWindow();
 
@@ -53,11 +38,22 @@ public abstract class GameActivity extends Activity {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(orientation);
 
-        IGameController gameController = buildGameController();
-        gameView = new GameView(this, gameController);
-        gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> gameController.onBitmapMeasuresAvailable(right - left, bottom - top));
-
+        gameView = new GameView(this, this, buildGameController());
+        gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> onBitmapMeasuresAvailable(right - left, bottom - top));
         setContentView(gameView);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (gameView == null) {
+            gameView = getGameView();
+            if (gameView == null)
+                throw new IllegalStateException("The method getGameView returns null and none of the optional OnCreate methods has been used. Have you overridden getGameView?");
+            gameView.setGameController(buildGameController());
+            gameView.setBitmapProvider(this);
+            gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> onBitmapMeasuresAvailable(right - left, bottom - top));
+        }
     }
 
     /**
@@ -65,6 +61,14 @@ public abstract class GameActivity extends Activity {
      * @return the {@link IGameController} that will be used in the {@link GameView}.
      */
     abstract protected IGameController buildGameController();
+
+    /**
+     *
+     * @return the {@link GameView} that was created by the activity
+     */
+    protected GameView getGameView() {
+        return gameView;
+    }
 
     /**
      * Transmit to the {@link GameView} the onResume event.

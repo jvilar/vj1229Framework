@@ -1,10 +1,6 @@
 package es.uji.vj1229.framework;
 
-import android.graphics.Bitmap;
-
 import java.util.List;
-
-import es.uji.vj1229.framework.TouchHandler.TouchEvent;
 
 /**
  * <p>The interface for the controller of the {@link GameView}</p>
@@ -19,27 +15,11 @@ import es.uji.vj1229.framework.TouchHandler.TouchEvent;
  */
 public interface IGameController {
     /**
-     * The method called by the {@link GameView} to notify the desired dimensions
-     * of the bitmaps returned by {@link IGameController#onDrawingRequested()}.
-     *
-     * @param width the desired width of the bitmaps
-     * @param height the desired height of the bitmaps
-     */
-    void onBitmapMeasuresAvailable(int width, int height);
-
-    /**
      * The method called by the {@link GameView} prior to the call to
-     * {@link IGameController#onDrawingRequested}. It informs the controller of the time passed
+     * {@link es.uji.vj1229.framework.GameView.IBitmapProvider#onDrawingRequested}. It informs the controller of the time passed
      * since the last call and the touch events that have been detected.
      * @param deltaTime the time (in seconds) since the last call
      * @param touchEvents the event processed since the last call
      */
-    void onUpdate(float deltaTime, List<TouchEvent> touchEvents);
-
-    /**
-     * The method called by the {@link GameView} to request the {@link Bitmap} to draw
-     * in the screen
-     * @return The desired {@link Bitmap}
-     */
-    Bitmap onDrawingRequested();
+    void onUpdate(float deltaTime, List<TouchHandler.TouchEvent> touchEvents);
 }

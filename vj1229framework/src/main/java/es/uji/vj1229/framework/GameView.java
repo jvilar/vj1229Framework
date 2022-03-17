@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -13,8 +14,9 @@ import android.view.SurfaceView;
  *
  * <p>It is in charge of calling
  * the {@link IGameController#onUpdate} and the
- * {@link IGameController#onDrawingRequested()} methods of the
- * {@link IGameController} that receives in the constructor.
+ * {@link IBitmapProvider#onDrawingRequested()} methods of the
+ * {@link IBitmapProvider} that receives in the constructor or is
+ * set using {@link GameView#setBitmapProvider}
  * </p>
  * <p>This file is part of the framework adapted for VJ1229, Mobile Device Applications in
  * <a href = "https://www.uji.es">Universitat Jaume I</a> from the one in the book
@@ -25,23 +27,64 @@ import android.view.SurfaceView;
  */
 
 public class GameView extends SurfaceView implements Runnable {
-    final IGameController gameController;
+    public interface IBitmapProvider {
+        /**
+         * The method called by the {@link GameView} to notify the desired dimensions
+         * of the bitmaps returned by {@link IBitmapProvider#onDrawingRequested()}.
+         *
+         * @param width the desired width of the bitmaps
+         * @param height the desired height of the bitmaps
+         */
+        void onBitmapMeasuresAvailable(int width, int height);
+
+        /**
+         * The method called by the {@link GameView} to request the {@link Bitmap} to draw
+         * in the screen
+         * @return The desired {@link Bitmap}
+         */
+        Bitmap onDrawingRequested();
+    }
+
+    private IBitmapProvider bitmapProvider;
+    private IGameController gameController;
     final SurfaceHolder holder;
     volatile boolean running;
     Thread renderThread;
     final TouchHandler touchHandler;
 
+    public GameView(Context context) {
+        this(context, null);
+    }
+
+    public GameView(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, null, null);
+    }
+
     /**
      * Constructor
      * @param context A context
-     * @param gameController The object that will control the view
+     * @param bitmapProvider The object that will control the view
      */
-    public GameView(Context context, IGameController gameController) {
-        super(context);
+    public GameView(Context context, IBitmapProvider bitmapProvider, IGameController gameController) {
+        this(context, null, bitmapProvider, gameController);
+    }
+
+    public GameView(Context context, AttributeSet attributeSet, IBitmapProvider bitmapProvider, IGameController gameController) {
+        super(context, attributeSet);
+        this.bitmapProvider = bitmapProvider;
         this.gameController = gameController;
         holder = getHolder();
         this.touchHandler = new TouchHandler(this);
         running = false;
+    }
+
+
+    public void setBitmapProvider(IBitmapProvider bitmapProvider) {
+        this.bitmapProvider = bitmapProvider;
+    }
+
+    public void setGameController(IGameController gameController) {
+        this.gameController = gameController;
     }
 
     /**
@@ -71,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
      * refreshing the view as fast as possible by calling the {@link IGameController} to process
      * the events and to get the bitmap to draw.
      *
-     * If the bitmap returned by {@link IGameController#onDrawingRequested()} is null,
+     * If the bitmap returned by {@link IBitmapProvider#onDrawingRequested()} is null,
      * there is no redraw of the screen. This can reduce battery consumption.
      */
     @Override
@@ -88,7 +131,7 @@ public class GameView extends SurfaceView implements Runnable {
             startTime = now;
 
             gameController.onUpdate(deltaTime, touchHandler.getTouchEvents());
-            Bitmap frameBuffer = gameController.onDrawingRequested();
+            Bitmap frameBuffer = bitmapProvider.onDrawingRequested();
             if (frameBuffer == null) { // No need to update, sleep 10 milliseconds
                 try {
                     Thread.sleep(10);

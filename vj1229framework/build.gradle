@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
-        versionName "v0.9.2"
+        versionName "v2022.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -35,7 +35,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'es.uji.vj1229.framework'
                 artifactId = 'final'
-                version = 'v0.9.2'
+                version = 'v2022.1'
             }
         }
     }

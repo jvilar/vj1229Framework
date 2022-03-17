@@ -5,6 +5,13 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.28425925925925927" />
+      </map>
+    </option>
+  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/temp/frameworkdoc" />
     <option name="OPEN_IN_BROWSER" value="false" />
