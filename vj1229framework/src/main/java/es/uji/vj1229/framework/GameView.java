@@ -79,10 +79,20 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
 
+    /**
+     * Sets the {@link IBitmapProvider}
+     *
+     * @param bitmapProvider the new {@link IBitmapProvider}
+     */
     public void setBitmapProvider(IBitmapProvider bitmapProvider) {
         this.bitmapProvider = bitmapProvider;
     }
 
+    /**
+     * Sets the {@link IGameController}
+     *
+     * @param gameController the new  {@link IBitmapProvider}
+     */
     public void setGameController(IGameController gameController) {
         this.gameController = gameController;
     }
