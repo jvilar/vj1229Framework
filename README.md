@@ -5,20 +5,39 @@ A Game Framework for Android used in the [VJ1229](https://ujiapps.uji.es/sia/res
 
 ## Installation
 
-To use it in your projects, add to the `build.gradle` file of the project the following:
+To use it in your projects, if the `build.gradle` of the project has an `allprojects`section, add to it the following:
 
-> allprojects {
->     repositories {
->         google()
->         jcenter()
->         maven { url 'https://jitpack.io' }
->     }
-> }
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 
-And to the `build.gradle` of your app:
+In recent versions of Android Studio, you have to add the line to the `settings.gradle` file:
 
-> dependencies {
->      implementation 'com.github.jvilar:vj1229Framework:v2021.1'
-> }
+```
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        ...
+        maven { url 'https://jitpack.io'}
+    }
+}
+```
 
+And add to the `build.gradle` of your app:
+
+```
+dependencies {
+     ...
+     implementation 'com.github.jvilar:vj1229Framework:v2021.1'
+}
+```
+
+# Usage
+
+Create an `Activity` by inheriting from |GameActivity|. 
 
