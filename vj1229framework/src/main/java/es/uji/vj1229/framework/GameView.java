@@ -63,7 +63,8 @@ public class GameView extends SurfaceView implements Runnable {
     /**
      * Constructor
      * @param context A context
-     * @param bitmapProvider The object that will control the view
+     * @param bitmapProvider The object that provides the bitmaps
+     * @param gameController The object that will control the view
      */
     public GameView(Context context, IBitmapProvider bitmapProvider, IGameController gameController) {
         this(context, null, bitmapProvider, gameController);

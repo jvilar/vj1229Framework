@@ -12,7 +12,7 @@ import android.view.WindowManager;
  * be done as part of a layout or as the single {@link android.view.View} of the activity.
  * To ease the creation, two auxiliary methods are provided: {@link #portraitFullScreenOnCreate()}
  * and {@link #landscapeFullScreenOnCreate()}. If they are used, that's enough.
- * If the {@GameView} is created otherwise, it is necessary to override {@link #getGameView()}.
+ * If the {@link GameView} is created otherwise, it is necessary to override {@link #getGameView()}.
  *
  * <p>This file is part of the framework adapted for VJ1229, Mobile Device Applications in
  * <a href = "https://www.uji.es">Universitat Jaume I</a> from the one in the book
