@@ -1,13 +1,13 @@
 package es.uji.vj1229.framework;
 
+import static android.graphics.Bitmap.Config.ARGB_8888;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-
-import static android.graphics.Bitmap.Config.ARGB_8888;
 
 /**
  * <p>A thin wrapper around a {@link Bitmap} to ease drawing with a {@link Canvas}
@@ -109,6 +109,15 @@ public class Graphics {
     }
 
     /**
+     *
+     * @return the {@link Paint} object used in drawing. Note that it is changed
+     * every time a drawing function that receives an attribute (like color) is
+     * called. This function is intended to be used to set those attributes that
+     * are not covered by the parameters.
+     */
+    public Paint getPaint() { return paint; }
+
+    /**
      * Draw a {@link Bitmap} over the underlying {@link Bitmap}
      * @param bitmap the {@link Bitmap} to draw
      * @param x the x coordinate of the upper left corner of {@code bitmap}
@@ -178,7 +187,9 @@ public class Graphics {
 
 
     /**
-     * Draw a {@link String} in the given coordinates
+     * Draw a {@link String} in the given coordinates. Note that the
+     * color fixed using is set in the {@link Paint} every time this
+     * function is called.
      * @param x the x coordinate of the origin of the text
      * @param y the y coordinate of the origin of the text
      * @param s the text

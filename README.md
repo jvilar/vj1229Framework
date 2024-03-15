@@ -5,18 +5,7 @@ A Game Framework for Android used in the [VJ1229](https://ujiapps.uji.es/sia/res
 
 ## Installation
 
-To use it in your projects, if the `build.gradle` of the project has an `allprojects`section, add to it the following:
-
-```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-In recent versions of Android Studio, you have to add the line to the `settings.gradle` file:
+If you have a `settings.gradle` file (not `settings.gradle`), add the maven repository:
 
 ```
 dependencyResolutionManagement {
@@ -28,12 +17,33 @@ dependencyResolutionManagement {
 }
 ```
 
+If you have a `settings.gradle.kts`, add the maven repository:
+
+```
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        ...
+        maven("https://jitpack.io")
+    }
+}
+```
+
 And add to the `build.gradle` of your app:
 
 ```
 dependencies {
      ...
-     implementation 'com.github.jvilar:vj1229Framework:v2021.1'
+     implementation 'com.github.jvilar:vj1229Framework:v2024.1'
+}
+```
+
+Or, if you have a `build.gradle.kts`:
+
+```
+dependencies {
+    ...
+    implementation("com.github.jvilar:vj1229Framework:v2024.1")
 }
 ```
 

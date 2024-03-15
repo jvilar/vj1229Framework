@@ -10,7 +10,7 @@ import java.util.List;
  * <p>A {@link View.OnTouchListener} for processing touch events in the
  * {@link GameView}.</p>
  * <p>Its main use is to process the touch events in the {@link GameView} so that they are
- * passed on to the corresponding {@link IGameController}.
+ * passed on to the corresponding {@link IEventProcessor}.
  * </p>
  * <p>This file is part of the framework adapted for VJ1229, Mobile Device Applications in
  * <a href = "https://www.uji.es">Universitat Jaume I</a> from the one in the book

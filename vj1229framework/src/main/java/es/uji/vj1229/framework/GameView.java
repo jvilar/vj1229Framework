@@ -13,7 +13,7 @@ import android.view.SurfaceView;
  * </p>
  *
  * <p>It is in charge of calling
- * the {@link IGameController#onUpdate} and the
+ * the {@link IEventProcessor#onUpdate} and the
  * {@link IBitmapProvider#onDrawingRequested()} methods of the
  * {@link IBitmapProvider} that receives in the constructor or is
  * set using {@link GameView#setBitmapProvider}
@@ -46,7 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private IBitmapProvider bitmapProvider;
-    private IGameController gameController;
+    private IEventProcessor eventProcessor;
     final SurfaceHolder holder;
     volatile boolean running;
     Thread renderThread;
@@ -64,16 +64,16 @@ public class GameView extends SurfaceView implements Runnable {
      * Constructor
      * @param context A context
      * @param bitmapProvider The object that provides the bitmaps
-     * @param gameController The object that will control the view
+     * @param eventProcessor The object that will control the view
      */
-    public GameView(Context context, IBitmapProvider bitmapProvider, IGameController gameController) {
-        this(context, null, bitmapProvider, gameController);
+    public GameView(Context context, IBitmapProvider bitmapProvider, IEventProcessor eventProcessor) {
+        this(context, null, bitmapProvider, eventProcessor);
     }
 
-    public GameView(Context context, AttributeSet attributeSet, IBitmapProvider bitmapProvider, IGameController gameController) {
+    public GameView(Context context, AttributeSet attributeSet, IBitmapProvider bitmapProvider, IEventProcessor eventProcessor) {
         super(context, attributeSet);
         this.bitmapProvider = bitmapProvider;
-        this.gameController = gameController;
+        this.eventProcessor = eventProcessor;
         holder = getHolder();
         this.touchHandler = new TouchHandler(this);
         running = false;
@@ -90,12 +90,12 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /**
-     * Sets the {@link IGameController}
+     * Sets the {@link IEventProcessor}
      *
-     * @param gameController the new  {@link IBitmapProvider}
+     * @param eventProcessor the new  {@link IBitmapProvider}
      */
-    public void setGameController(IGameController gameController) {
-        this.gameController = gameController;
+    public void setEventProcessor(IEventProcessor eventProcessor) {
+        this.eventProcessor = eventProcessor;
     }
 
     /**
@@ -122,7 +122,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * Implementation of the {@link Runnable#run} method. The run process keeps
-     * refreshing the view as fast as possible by calling the {@link IGameController} to process
+     * refreshing the view as fast as possible by calling the {@link IEventProcessor} to process
      * the events and to get the bitmap to draw.
      *
      * If the bitmap returned by {@link IBitmapProvider#onDrawingRequested()} is null,
@@ -141,7 +141,7 @@ public class GameView extends SurfaceView implements Runnable {
             float deltaTime = (now - startTime) / 1000_000_000f;
             startTime = now;
 
-            gameController.onUpdate(deltaTime, touchHandler.getTouchEvents());
+            eventProcessor.onUpdate(deltaTime, touchHandler.getTouchEvents());
             Bitmap frameBuffer = bitmapProvider.onDrawingRequested();
             if (frameBuffer == null) { // No need to update, sleep 10 milliseconds
                 try {

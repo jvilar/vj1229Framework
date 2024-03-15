@@ -3,14 +3,12 @@ apply plugin: 'maven-publish'
 group = 'com.github.jvilar'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 1
-        versionName "v2022.1"
+        versionCode 5
+        versionName "v2024.rc1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -42,7 +40,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'es.uji.vj1229.framework'
                 artifactId = 'final'
-                version = 'v2022.1'
+                version = 'v2024.rc1'
             }
         }
     }
@@ -51,9 +49,9 @@ afterEvaluate {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    testImplementation 'androidx.test:core:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

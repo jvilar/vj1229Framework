@@ -1,10 +1,11 @@
 package es.uji.vj1229.framework;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <p>The abstract base class for the activity that will control the game.
@@ -21,7 +22,7 @@ import android.view.WindowManager;
  * @author Juan Miguel Vilar Torres and Juan Carlos Amengual Argudo
  * @see <a href="https://www.apress.com/gp/book/9781430246770">Begining Android Games</a>
  */
-public abstract class GameActivity extends Activity implements GameView.IBitmapProvider {
+public abstract class GameActivity extends AppCompatActivity implements GameView.IBitmapProvider {
     private GameView gameView = null;
 
     /**
@@ -59,7 +60,7 @@ public abstract class GameActivity extends Activity implements GameView.IBitmapP
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(orientation);
 
-        gameView = new GameView(this, this, buildGameController());
+        gameView = new GameView(this, this, getEventProcessor());
         gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> onBitmapMeasuresAvailable(right - left, bottom - top));
         setContentView(gameView);
     }
@@ -71,7 +72,7 @@ public abstract class GameActivity extends Activity implements GameView.IBitmapP
             gameView = getGameView();
             if (gameView == null)
                 throw new IllegalStateException("The method getGameView returns null and none of the optional OnCreate methods has been used. Have you overridden getGameView?");
-            gameView.setGameController(buildGameController());
+            gameView.setEventProcessor(getEventProcessor());
             gameView.setBitmapProvider(this);
             gameView.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> onBitmapMeasuresAvailable(right - left, bottom - top));
         }
@@ -79,9 +80,9 @@ public abstract class GameActivity extends Activity implements GameView.IBitmapP
 
     /**
      *
-     * @return the {@link IGameController} that will be used in the {@link GameView}.
+     * @return the {@link IEventProcessor} that will be used in the {@link GameView}.
      */
-    abstract protected IGameController buildGameController();
+    abstract protected IEventProcessor getEventProcessor();
 
     /**
      *
