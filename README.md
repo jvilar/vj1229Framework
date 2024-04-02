@@ -5,7 +5,7 @@ A Game Framework for Android used in the [VJ1229](https://ujiapps.uji.es/sia/res
 
 ## Installation
 
-If you have a `settings.gradle` file (not `settings.gradle`), add the maven repository:
+If you have a `settings.gradle` file (not `settings.gradle.kts`), add the maven repository:
 
 ```
 dependencyResolutionManagement {
