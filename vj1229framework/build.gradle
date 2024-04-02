@@ -47,11 +47,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
 publishing {
     publications {
         // Creates a Maven publication called "release".
@@ -64,6 +59,8 @@ publishing {
             // Applies the component for the release build variant.
             afterEvaluate {
                 from components.release
+                artifact javadocJar
+                artifact sourcesJar
             }
         }
     }
