@@ -71,7 +71,7 @@ public class AnimatedBMapTest {
         for (int i = 0 ; i < expected.length ; i++) {
             int actual = bitmapIndex(animatedBitmap.getCurrentFrame());
             assertEquals(String.format("At iteration %d", i), expected[i], actual);
-            animatedBitmap.update(deltaTime);
+            animatedBitmap.onUpdate(deltaTime);
         }
     }
 

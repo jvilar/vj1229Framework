@@ -51,7 +51,7 @@ public class AnimatedBitmap {
      *
      * @param deltaTime time elapsed (in seconds) since the last call.
      */
-    public void update(float deltaTime) {
+    public void onUpdate(float deltaTime) {
         currentTime += deltaTime;
         int nFrames = (int) (currentTime / frameDuration);
         if (looping)
