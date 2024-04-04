@@ -30,11 +30,6 @@ android {
     }
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier = 'sources'
-}
-
 // Allows using ./gradlew generateRelesaseJavadoc to generate the javadocs
 // in the javadoc directory. Does not integrate with jitpack.
 android.libraryVariants.all { variant ->
@@ -67,15 +62,14 @@ publishing {
         // Creates a Maven publication called "release".
         release(MavenPublication) {
             // You can then customize attributes of the publication as shown below.
-            groupId = 'es.uji.vj1229.framework'
-            artifactId = 'final'
+            groupId = 'es.uji.vj1229'
+            artifactId = 'framework'
             version = 'v2024.rc1'
 
             // Applies the component for the release build variant.
             afterEvaluate {
                 from components.release
                 artifact javadocJar
-                artifact sourcesJar
             }
         }
     }
