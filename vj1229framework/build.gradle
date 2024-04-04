@@ -23,11 +23,11 @@ android {
         }
     }
 
-    publishing {
+   /* publishing {
         singleVariant('release') {
             withSourcesJar()
         }
-    }
+    }*/
 }
 
 // Allows using ./gradlew generateRelesaseJavadoc to generate the javadocs
