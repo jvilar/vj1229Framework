@@ -111,6 +111,6 @@ recoverd using `getCurrentFrame`.
 This class treats a `Bitmap` as an array of smaller images (*sprites*). The images can be recovered using
 `getScaledRow`, `getSprite`, or `getScaledSprite`.
 
-# Further Documentation
+# Documentation
 
-The complete documentation is available [here](https://www3.uji.es/~jvilar/vj1229Framework).
+The complete documentation is available [here](https://javadoc.jitpack.io/com/github/jvilar/vj1229Framework/v2024.1/javadoc/es/uji/vj1229/framework/package-summary.html).
