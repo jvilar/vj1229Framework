@@ -35,6 +35,23 @@ task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
 }
 
+// Allows using ./gradlew generateRelesaseJavadoc to generate the javadocs
+// in the javadoc directory. Does not integrate with jitpack.
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+
+        source = variant.javaCompile.source
+        destinationDir = file("$rootDir/javadoc/")
+        failOnError false
+
+        doFirst {
+            ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+            classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+
+            options.addStringOption "-show-members", "package"
+        }
+    }}
 
 task javadoc(type: Javadoc) {
     failOnError false
@@ -45,11 +62,9 @@ task javadoc(type: Javadoc) {
     }
 }
 
-
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
     archiveClassifier = 'javadoc'
-    from javadoc.destinationDir
+    javadoc.destinationDir
 }
 
 publishing {
