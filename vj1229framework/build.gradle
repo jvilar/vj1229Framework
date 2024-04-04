@@ -38,33 +38,28 @@ task sourcesJar(type: Jar) {
 // Allows using ./gradlew generateRelesaseJavadoc to generate the javadocs
 // in the javadoc directory. Does not integrate with jitpack.
 android.libraryVariants.all { variant ->
-    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
-        description "Generates Javadoc for $variant.name."
+    if (variant.name == "release") {
+        //task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        task("javadoc", type: Javadoc) {
+            description "Generates Javadoc for $variant.name."
 
-        source = variant.javaCompile.source
-        destinationDir = file("$rootDir/javadoc/")
-        failOnError false
+            source = variant.javaCompile.source
+            destinationDir = file("$rootDir/javadoc/")
+            failOnError false
 
-        doFirst {
-            ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-            classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+            doFirst {
+                ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+                classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
 
-            options.addStringOption "-show-members", "package"
+                options.addStringOption "-show-members", "package"
+            }
         }
-    }}
 
-task javadoc(type: Javadoc) {
-    failOnError false
-    options.addStringOption('author', '-quiet')
-    source = android.sourceSets.main.java.sourceFiles
-    afterEvaluate {
-        classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            archiveClassifier = 'javadoc'
+            from javadoc.destinationDir
+        }
     }
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = 'javadoc'
-    javadoc.destinationDir
 }
 
 publishing {
